@@ -1,18 +1,23 @@
-from models import Task
+from services import TaskManager
 
-try:
-    my_task = Task(title= "finish roadmap" , description="Complete day 1")
-    print(f"Created Task: {my_task.title} (ID: {my_task.id})")
+def test_service():
+    print("Testing TaskManager Service...")
+    manager = TaskManager()
 
-    print(f"Status: {'Done' if my_task.completed else 'pending'}")
+    task_1 = manager.add_task(title = "finish day 2" , description= "Implement the service layer")
+    print(f"Added: {task_1.title} | ID: {task_1.id}")
 
-    my_task.mark_complete()
-    print(f"Status: {'Done' if my_task.completed else 'pending'}")
+    all_tasks = manager.list_all_tasks()
+    print(f"Total tasks: {len(all_tasks)}")
 
-    data = my_task.to_dict()
-    print(f"Serialized to dict: {data}")
+    success = manager.mark_task_complete(task_1.id)
+    if success:
+        print(f"Task status: {'Complete' if task_1.completed else 'Pending'}")
 
-    new_task = Task.from_dict(data)
-    print(f"Recreated from dict: {new_task.title}")
-except Exception as e:
-    print(f"Error :{e}")
+    manager.delete_task(task_1.id)
+    print(f"Tasks after deletion: {len(manager.list_all_tasks())}")
+
+if __name__ == "__main__":
+    test_service()
+
+
