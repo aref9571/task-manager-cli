@@ -30,3 +30,10 @@ task-manager-cli/
 ├── conftest.py        # Pytest path configuration
 ├── requirements.txt   # Project dependencies
 └── README.md          # Documentation
+
+## 📦 Installation & Setup
+
+1. **Clone the repository:**
+   ```bash
+   git clone [https://github.com/aref9571/task-manager-cli.git](https://github.com/aref9571/task-manager-cli.git)
+   cd task-manager-cli
