@@ -1,23 +1,26 @@
-from services import TaskManager
+from services import StorageHandler, TaskManager
+import os
 
-def test_service():
-    print("Testing TaskManager Service...")
+def test_persistence():
+    print("Testing persistence...")
     manager = TaskManager()
 
-    task_1 = manager.add_task(title = "finish day 2" , description= "Implement the service layer")
-    print(f"Added: {task_1.title} | ID: {task_1.id}")
+    current_tasks = manager.list_all_tasks()
+    print("Current Tasks in DB: {}".format(len(current_tasks)))
+    for task in current_tasks:
+        print(f"{task.title} {'Done' if task.completed else 'Pending'} ")
 
-    all_tasks = manager.list_all_tasks()
-    print(f"Total tasks: {len(all_tasks)}")
+    new_task = manager.add_task("Persistence Task" , "I survive restarts")
+    print(f"ADDED: {new_task.title}")
 
-    success = manager.mark_task_complete(task_1.id)
-    if success:
-        print(f"Task status: {'Complete' if task_1.completed else 'Pending'}")
+    manager.mark_task_complete(new_task.id)
+    if os.path.exists("data/tasks.json"):
+        print("Success: data/tasks.json exists!")
+    else:
+        print("FAILURE: file not found")
 
-    manager.delete_task(task_1.id)
-    print(f"Tasks after deletion: {len(manager.list_all_tasks())}")
+
 
 if __name__ == "__main__":
-    test_service()
-
+    test_persistence()
 
