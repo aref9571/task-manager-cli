@@ -1,39 +1,66 @@
-# 📝 Professional Task Manager CLI
+# Task Manager CLI
 
-A robust, persistent command-line interface (CLI) application built with Python. This project demonstrates clean architecture, Object-Oriented Programming (OOP), and automated testing. It was developed as the final capstone for Month 1 of a Backend Engineering intensive.
+A command-line task manager written in Python. Tasks are saved to a JSON file, so they are still there the next time the program starts.
 
-## 🚀 Key Features
-- **N-Tier Architecture:** Separated into Model (Data), Service (Logic), Storage (File I/O), and Presentation (CLI) layers.
-- **Persistence:** All data is saved to and loaded from a `data/tasks.json` file automatically, ensuring your tasks survive app restarts.
-- **Input Sanitization:** Handles empty inputs and provides a case-insensitive menu system.
-- **Automated Testing:** Logic is fully verified with a Pytest suite to ensure stability during updates.
-- **Developer Friendly:** Supports **UUID Snippets**. You only need to type the first few characters (e.g., `8fa1`) of a Task ID to mark it complete or delete it.
+## Features
 
-## 🛠️ Tech Stack
-- **Language:** Python 3.13+
-- **Testing:** Pytest
-- **Data Format:** JSON
-- **Version Control:** Git
+- Add tasks with a title and an optional description
+- List tasks with their status (pending or complete)
+- Mark tasks as complete and delete them
+- Select a task by the first characters of its ID instead of typing the full UUID
+- Input validation: empty titles and empty IDs are rejected
+- Unit tests for the business logic with pytest
 
-## 📂 Project Structure
+## Tech stack
+
+- Python 3.13
+- pytest
+- JSON file storage
+
+## Project structure
+
 ```text
 task-manager-cli/
 ├── src/
-│   ├── models.py      # Data blueprints (Task class)
-│   ├── services.py    # Business logic (TaskManager)
-│   ├── storage.py     # Data persistence (StorageHandler)
-│   └── main.py        # CLI interactive loop
+│   ├── main.py        Command-line menu and input handling
+│   ├── models.py      Task data class and JSON conversion
+│   ├── services.py    TaskManager with the business logic
+│   └── storage.py     Reading and writing data/tasks.json
 ├── tests/
-│   ├── __init__.py
-│   └── test_manager.py # Automated unit tests
-├── data/              # Folder for JSON storage (auto-generated)
-├── conftest.py        # Pytest path configuration
-├── requirements.txt   # Project dependencies
-└── README.md          # Documentation
+│   └── test_manager.py
+├── conftest.py        Adds src/ to the import path for the tests
+└── requirements.txt
+```
 
-## 📦 Installation & Setup
+The code is split into layers: `main.py` only talks to the user, `TaskManager` holds the rules, and `StorageHandler` is the only part that touches the file system.
 
-1. **Clone the repository:**
-   ```bash
-   git clone [https://github.com/aref9571/task-manager-cli.git](https://github.com/aref9571/task-manager-cli.git)
-   cd task-manager-cli
+## Getting started
+
+```bash
+git clone https://github.com/aref9571/task-manager-cli.git
+cd task-manager-cli
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+Run the application from the repository root:
+
+```bash
+python src/main.py
+```
+
+Tasks are saved to `data/tasks.json`, which is created on first use and is not tracked by Git.
+
+## Running tests
+
+```bash
+pytest
+```
+
+The tests cover adding a task, marking it complete and deleting it. GitHub Actions runs them on every push to `main`.
+
+## Limitations
+
+- Tasks cannot be edited or set back to pending from the menu.
+- If the JSON file is damaged, the application starts with an empty list instead of reporting the problem.
