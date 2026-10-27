@@ -37,18 +37,24 @@ def main():
 
         elif choice == "3":
             task_id_snippet = input("Enter Task ID (first 8 chars is enough): ").strip()
+            if not task_id_snippet:
+                print("Task ID cannot be empty!")
+                continue
             found = False
             for t in manager.list_all_tasks():
                 if t.id.startswith(task_id_snippet):
                     manager.mark_task_complete(t.id)
                     print(f"Task '{t.title}' marked as complete!")
-                    found =True
+                    found = True
                     break
-                if not found:
-                    print("Task not found.")
+            if not found:
+                print("Task not found.")
 
         elif choice == "4":
             task_id_snippet = input("Enter Task ID (first 8 chars is enough): ").strip()
+            if not task_id_snippet:
+                print("Task ID cannot be empty!")
+                continue
             found = False
             for t in manager.list_all_tasks():
                 if t.id.startswith(task_id_snippet):
@@ -56,8 +62,8 @@ def main():
                     print(f"Task '{t.title}' deleted successfully.")
                     found = True
                     break
-                if not found:
-                    print("Task not found.")
+            if not found:
+                print("Task not found.")
 
         elif choice == "5":
             print("Goodbye!")
